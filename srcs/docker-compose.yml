@@ -1,0 +1,80 @@
+version: '3'
+
+volumes:
+  wp:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/muyazici/data/wp
+  db:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/muyazici/data/db
+
+networks:
+  my_network:
+    driver: bridge
+
+services:
+  mariadb:
+    container_name: mariadb
+    image: mariadb
+    networks:
+      - my_network
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
+      args:
+        DB_NAME: $MYSQL_DB
+        DB_USER: $MYSQL_USER
+        DB_PASSWORD: $MYSQL_PASSWORD
+        DB_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+    ports:
+      - "3306:3306"
+    env_file:
+      - .env
+    volumes:
+      - /home/muyazici/data/db:/home/data
+    restart: always
+    tty: true
+
+  nginx:
+    container_name: nginx
+    image: nginx
+    depends_on:
+      - wordpress
+    networks:
+      - my_network
+    build:
+      context: ./requirements/nginx
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "443:443"
+    restart: always
+    volumes:
+      - wp:/var/www/html
+    tty: true
+
+  wordpress:
+    container_name: wordpress
+    image: wordpress
+    depends_on:
+      - mariadb
+    networks:
+      - my_network
+    build:
+      context: ./requirements/wordpress
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "9000:9000"
+    volumes:
+      - wp:/var/www/html
+    restart: always
+    tty: true
