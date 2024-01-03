@@ -1,6 +1,6 @@
 DATA_DIR = /home/muyazici/data
 
-# HOSTNAME = "127.0.0.1	muyazici.42.fr"
+HOSTNAME = "127.0.0.1	muyazici.42.fr"
 
 all: dir
 	docker-compose -f srcs/docker-compose.yml up -d --build
