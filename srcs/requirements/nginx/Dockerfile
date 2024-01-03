@@ -1,5 +1,8 @@
 FROM debian:buster
 
+ARG CERT_FILE
+ARG KEY_FILE
+
 RUN apt-get update && apt-get upgrade -y
 
 RUN apt-get install -y openssl nginx

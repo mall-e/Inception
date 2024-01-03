@@ -51,6 +51,9 @@ services:
     build:
       context: ./requirements/nginx
       dockerfile: Dockerfile
+      args:
+        CERT_FILE: $CERT_FILE
+        KEY_FILE: $KEY_FILE
     env_file:
       - .env
     ports:

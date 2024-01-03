@@ -10,11 +10,9 @@ sed -i 's/database_here/'$DB_NAME'/g' init.sql
 
 sed 's/skip-networking/#skip-networking/g' -i  /etc/mysql/mariadb.conf.d/50-server.cnf
 
-cat init.sql
+#cat init.sql
 
-#starting the mysql and giving it the init as input
 mysql < init.sql
-# rm -f init.sql;
 mysqladmin -u root -p${DB_ROOT_PASSWORD} shutdown;
 rm -f init.sql;
 # mysqld;

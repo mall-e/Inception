@@ -1,8 +1,8 @@
 #! /bin/bash
 
 openssl req -newkey rsa:4096 -x509 -sha256 -days 30 -nodes \
-    -out /etc/ssl/muyazici.42.fr.pem \
-    -keyout /etc/ssl/muyazici.42.fr.key -subj "/C=TR/ST=KOCAELI/L=IZMIT/O=42 School/OU=muyazici/CN=muyazici.42.fr"
+    -out $CERT_FILE \
+    -keyout $KEY_FILE -subj "/C=TR/ST=KOCAELI/L=IZMIT/O=42 School/OU=muyazici/CN=muyazici.42.fr"
 
 rm -f /etc/nginx/sites-available/default && rm -f /etc/nginx/sites-enabled/default
 
